@@ -1,4 +1,5 @@
 import os
+import platform
 from fastapi import APIRouter, UploadFile, File, Form
 from fastapi.responses import FileResponse
 from utils.pdf_utils import tmp_dir, cleanup, save_upload, run_cmd
@@ -25,9 +26,9 @@ async def compress_pdf(
     try:
         await save_upload(file, src)
         gs_quality = QUALITY_MAP.get(quality, "/ebook")
-
+gs_command = "gswin64c" if platform.system() == "Windows" else "gs"
         run_cmd([
-             "gswin64c",
+             gs_command,
             "-sDEVICE=pdfwrite",
             "-dCompatibilityLevel=1.4",
             f"-dPDFSETTINGS={gs_quality}",
