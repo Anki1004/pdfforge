@@ -31,7 +31,7 @@ RUN mkdir -p /tmp/pdfforge && chown appuser:appuser /tmp/pdfforge
 
 USER appuser
 
-EXPOSE 8000
+EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
