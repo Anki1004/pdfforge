@@ -22,11 +22,14 @@ async def lifespan(app: FastAPI):
     yield
     print("👋 Backend shutdown")
 
-
 def _check_deps():
     import subprocess
+    import platform
+
+    gs_command = "gswin64c" if platform.system() == "Windows" else "gs"
+
     for cmd, name in [
-        (["gswin64c", "--version"],   "Ghostscript"),
+        ([gs_command, "--version"], "Ghostscript"),
         (["qpdf", "--version"], "qpdf"),
     ]:
         try:
@@ -34,7 +37,6 @@ def _check_deps():
             print(f"  ✅ {name}: {r.stdout.strip()[:40]}")
         except Exception as e:
             print(f"  ⚠️  {name} not found: {e}")
-
 
 app = FastAPI(
     title="PDFForge API",
