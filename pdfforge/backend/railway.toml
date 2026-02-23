@@ -1,0 +1,16 @@
+# railway.toml — place this in the /backend directory
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+healthcheckPath = "/api/health"
+healthcheckTimeout = 30
+
+[[services]]
+name = "pdfforge-api"
+
+[services.variables]
+ALLOWED_ORIGINS = "https://pdfforge.app,https://www.pdfforge.app"
