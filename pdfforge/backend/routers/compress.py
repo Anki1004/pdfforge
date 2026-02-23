@@ -19,16 +19,19 @@ async def compress_pdf(
     file: UploadFile = File(...),
     quality: str = Form("ebook"),
 ):
-    """Compress a PDF using Ghostscript."""
     work = tmp_dir()
     src  = os.path.join(work, "input.pdf")
     dst  = os.path.join(work, "compressed.pdf")
+
     try:
         await save_upload(file, src)
         gs_quality = QUALITY_MAP.get(quality, "/ebook")
-gs_command = "gswin64c" if platform.system() == "Windows" else "gs"
+
+        import platform
+        gs_command = "gswin64c" if platform.system() == "Windows" else "gs"
+
         run_cmd([
-             gs_command,
+            gs_command,
             "-sDEVICE=pdfwrite",
             "-dCompatibilityLevel=1.4",
             f"-dPDFSETTINGS={gs_quality}",
@@ -42,26 +45,14 @@ gs_command = "gswin64c" if platform.system() == "Windows" else "gs"
             src,
         ])
 
-        orig_kb = os.path.getsize(src) / 1024
-        comp_kb = os.path.getsize(dst) / 1024
-        saving  = round((1 - comp_kb / orig_kb) * 100, 1) if orig_kb > 0 else 0
-
         return FileResponse(
             dst,
             media_type="application/pdf",
             filename="compressed.pdf",
-            headers={
-                "X-Original-KB":    str(round(orig_kb, 1)),
-                "X-Compressed-KB":  str(round(comp_kb, 1)),
-                "X-Saving-Percent": str(saving),
-            },
-            background=None,
         )
-    finally:
-        # Background cleanup — FileResponse streams before we clean up
-        # Use a deferred approach: the file is deleted after response is sent
-        pass
 
+    finally:
+        pass
 
 @router.post("/compress/background-cleanup")
 async def _cleanup(path: str):
