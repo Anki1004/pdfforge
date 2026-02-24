@@ -31,13 +31,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // Extract FAQ items from post content (h3 tags followed by <p>)
 function extractFAQs(html: string): { q: string; a: string }[] {
   const faqs: { q: string; a: string }[] = [];
-  const matches = html.matchAll(/<h3>([\s\S]*?)<\/h3>/g);
-  for (const m of matches) {
-    faqs.push({
-      q: m[1].replace(/<[^>]+>/g, ''),
-      a: m[2].replace(/<[^>]+>/g, ''),
-    });
-  }
+ const matches = Array.from(
+  html.matchAll(/<h3>([\s\S]*?)<\/h3>/g)
+);
+
+for (const m of matches) {
+  if (!m[1] || !m[2]) continue;
+
+  faqs.push({
+    q: m[1].replace(/<[^>]+>/g, ""),
+    a: m[2].replace(/<[^>]+>/g, ""),
+  });
+}
   return faqs.slice(0, 8); // Max 8 FAQ items for schema
 }
 
