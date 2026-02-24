@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: pdfforge-api
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      apt-get update && apt-get install -y ghostscript qpdf
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
