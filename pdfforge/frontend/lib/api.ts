@@ -24,36 +24,52 @@ async function postFormData(
 export interface CompressOptions {
   quality: 'screen' | 'ebook' | 'printer' | 'prepress';
 }
-export async function apiCompress(file: File, opts: CompressOptions, onProgress?: (n: number) => void) {
+export async function apiCompress(
+  file: File,
+  opts: CompressOptions,
+  onProgress?: (n: number) => void
+) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('quality', opts.quality);
-  return postFormData('/compress', fd, onProgress);
+  return postFormData('/api/compress', fd, onProgress); // ✅ FIXED
 }
 
 export interface ProtectOptions { userPassword: string; ownerPassword?: string; }
-export async function apiProtect(file: File, opts: ProtectOptions, onProgress?: (n: number) => void) {
+export async function apiProtect(
+  file: File,
+  opts: ProtectOptions,
+  onProgress?: (n: number) => void
+) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('user_password', opts.userPassword);
   fd.append('owner_password', opts.ownerPassword || '');
-  return postFormData('/protect', fd, onProgress);
+  return postFormData('/api/protect', fd, onProgress); // ✅ FIXED
 }
 
 export interface UnlockOptions { password: string; }
-export async function apiUnlock(file: File, opts: UnlockOptions, onProgress?: (n: number) => void) {
+export async function apiUnlock(
+  file: File,
+  opts: UnlockOptions,
+  onProgress?: (n: number) => void
+) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('password', opts.password);
-  return postFormData('/unlock', fd, onProgress);
+  return postFormData('/api/unlock', fd, onProgress); // ✅ FIXED
 }
 
 export interface RasterizeOptions { dpi: number; }
-export async function apiRasterize(file: File, opts: RasterizeOptions, onProgress?: (n: number) => void) {
+export async function apiRasterize(
+  file: File,
+  opts: RasterizeOptions,
+  onProgress?: (n: number) => void
+) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('dpi', String(opts.dpi));
-  return postFormData('/rasterize', fd, onProgress);
+  return postFormData('/api/rasterize', fd, onProgress); // ✅ FIXED
 }
 
 export async function apiHealthCheck(): Promise<boolean> {
