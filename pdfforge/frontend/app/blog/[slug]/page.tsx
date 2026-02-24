@@ -166,7 +166,7 @@ export default function BlogPostPage({ params }: Props) {
                         <span className="text-xl">{tool.icon}</span>
                         <div>
                           <p className="text-sm font-medium group-hover:text-accent transition-colors">{tool.name}</p>
-                          <p className="text-xs text-muted">{tool.tagline}</p>
+                          <p className="text-xs text-muted">{tool.description}</p>
                         </div>
                       </Link>
                     </li>
