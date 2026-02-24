@@ -8,7 +8,7 @@ async function postFormData(
   formData: FormData,
   onProgress?: (pct: number) => void,
 ): Promise<Blob> {
-  const res = await axios.post(`${BASE}/api${endpoint}`, formData, {
+  const res = await axios.post(`${BASE}${endpoint}`, formData, {
     responseType: 'blob',
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: (e: AxiosProgressEvent) => {
