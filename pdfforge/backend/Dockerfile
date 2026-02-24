@@ -36,4 +36,4 @@ EXPOSE 8080
 # Health check
 
 
-CMD ["python", "main.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
