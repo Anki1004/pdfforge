@@ -8,10 +8,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from routers import compress, protect, unlock, rasterize
 
-ALLOWED_ORIGINS = os.getenv(
-    "ALLOWED_ORIGINS",
-    "http://localhost:3000,https://pdfforge.app,https://www.pdfforge.app"
-).split(",")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow all origins for now
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @asynccontextmanager
