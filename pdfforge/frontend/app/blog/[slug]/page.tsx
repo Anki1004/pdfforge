@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // Extract FAQ items from post content (h3 tags followed by <p>)
 function extractFAQs(html: string): { q: string; a: string }[] {
   const faqs: { q: string; a: string }[] = [];
-  const matches = html.matchAll(/<h3>(.*?)<\/h3>\s*<p>(.*?)<\/p>/gs);
+  const matches = html.matchAll(/<h3>([\s\S]*?)<\/h3>/g);
   for (const m of matches) {
     faqs.push({
       q: m[1].replace(/<[^>]+>/g, ''),
