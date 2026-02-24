@@ -10,10 +10,19 @@ export function hexToRgb(hex: string) {
   return rgb(r, g, b);
 }
 export function downloadBlob(data: Uint8Array | Blob, filename: string) {
-  const blob = data instanceof Blob ? data : new Blob([data], { type: 'application/pdf' });
+  const blob =
+    data instanceof Blob
+      ? data
+      : new Blob([data.buffer as ArrayBuffer], {
+          type: 'application/pdf',
+        });
+
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = filename; a.click();
+  a.href = url;
+  a.download = filename;
+  a.click();
+
   setTimeout(() => URL.revokeObjectURL(url), 8000);
 }
 export function formatBytes(b: number) {
